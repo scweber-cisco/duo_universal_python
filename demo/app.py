@@ -86,6 +86,11 @@ def duo_callback():
     return render_template("success.html",
                            message=json.dumps(decoded_token, indent=2, sort_keys=True))
 
+@app.route("/verify")
+def verify():
+    inquiry_id = request.args.get('inquiry-id')
+    return render_template("persona.html", inquiry_id=inquiry_id)
+
 
 def parse():
     parser = argparse.ArgumentParser(

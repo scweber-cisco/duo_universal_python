@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <script>
+          function backToDuo() {
+            window.location.assign("https://devicemanagement-duo1.duo.test/frame/idv/complete?status=success&inquiry-id={{ inquiry_id }}");
+          }
+        </script>
+    </head>
+    <body>
+        <div class="content">
+            <link rel="stylesheet" href='/static/style.css'>
+            <div class="logo">
+                <img src="/static/images/logo.png">
+            </div>
+            <div class="output">
+                <pre class="language-json"><code class="language-json" id="message">This is where Persona IDV would happen.</code></pre>
+            </div>
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="backToDuo()">Done</button>
+            </div>
+        </div>
+    </body>
+</html>
