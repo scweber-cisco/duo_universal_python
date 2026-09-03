@@ -240,16 +240,23 @@ class Client:
 
         return res
 
-    def create_auth_url(self, username, state, nonce=None):
+    def create_auth_url(self, username, state, nonce=None, dest_app_name=None,
+                        dest_app_id=None, display_username=None):
         """Generate uri to Duo's prompt
 
         Arguments:
 
-        username        -- username trying to authenticate with Duo
-        state           -- Randomly generated character string of at least 16
-                           and at most 1024 characters returned to the integration by Duo after 2FA
-        nonce           -- Randomly generated character string of at least 16
-                           and at most 1024 characters used as the nonce for the underlying OIDC flow
+        username         -- username trying to authenticate with Duo
+        state            -- Randomly generated character string of at least 16
+                            and at most 1024 characters returned to the integration by Duo after 2FA
+        nonce            -- Randomly generated character string of at least 16
+                            and at most 1024 characters used as the nonce for the underlying OIDC flow
+        dest_app_name    -- (Optional) User-facing name of the application the user is
+                            authenticating to, shown in Duo Mobile and the auth log
+        dest_app_id      -- (Optional) Long-lived unique identifier for the destination
+                            application; not shown to users
+        display_username -- (Optional) Username shown in the Duo Mobile "user" field for Push.
+                            Defaults to the Duo username if not provided.
 
         Returns:
 
@@ -272,6 +279,13 @@ class Client:
             'duo_uname': username,
             'use_duo_code_attribute': self._use_duo_code_attribute,
         }
+
+        if dest_app_name is not None:
+            jwt_args['dest_app_name'] = dest_app_name
+        if dest_app_id is not None:
+            jwt_args['dest_app_id'] = dest_app_id
+        if display_username is not None:
+            jwt_args['display_username'] = display_username
 
         request_jwt = jwt.encode(jwt_args,
                                  self._signing_key,
